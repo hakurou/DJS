@@ -34,7 +34,7 @@ $i->parseFile(
 ?>
 `````
 
-Les simplifications d'écritures au niveau JavaScript
+Les simplifications d'écriture au niveau JavaScript
 ----------------------------------------------------
 
 Rien n'est plus parlant que des exemples, alors nous allons commencer par l'écriture d'une classe:

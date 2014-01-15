@@ -70,6 +70,26 @@ class Truck extends Vehicle
 }
 `````
 
+Utilisation du mot clé "static"
+`````javascript
+
+class MaClasse
+{
+	static nbInstances = 0;
+	
+	construct()
+	{
+		MaClasse.nbInstances++;
+	}
+	
+	static uneMethodeStatique()
+	{
+	
+	}
+}
+
+`````
+
 L'utilisation de namespace
 `````javascript
 namespace myproject
@@ -129,7 +149,7 @@ sayHello("John");
 Possibilité d'inclure un ou plusieurs fichiers afin de pouvoir mieux séparer son code (par exemple une classe par fichier):
 `````javascript
 
-import "project1/subproject1/subproject1.djs";
+import "project1/subproject1/MaClassParente.djs";
 import "project1/MaClasse.djs";
 
 var o = new project1.MaClasse();

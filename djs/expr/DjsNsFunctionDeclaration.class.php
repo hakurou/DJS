@@ -12,7 +12,7 @@ class DjsNsFunctionDeclaration extends Exp
 		$this->name = $name;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
 		return $this->parentNamespace.'.'.$this->name.' = function';
     }

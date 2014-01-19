@@ -7,20 +7,28 @@ class Parser
     protected $lexer;
 	protected $djs;
     protected $currentToken;
+    protected $filename;
 	
     public function __construct($djs)
     {
     	$this->djs = $djs;
     }
+	
+	public function getFilename()
+	{
+		return $this->filename;
+	}
     
     public function parseFile($filename)
     {
+    	$this->filename = $filename;
+		$this->filename = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $this->filename);
         $this->lexer = new Lexer($filename, Lexer::T_FILE);
 		$content = "";
 		
 		while(($expr = $this->parseExpr()) != null)
 		{	
-	        $content .= $expr->interpret();
+	        $content .= $expr->interpret($this);
 		}
 		
 		return $content ;

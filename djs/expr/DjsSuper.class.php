@@ -16,7 +16,7 @@ class DjsSuper extends Exp
         $this->className = $className;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
     	$args = '';
 		
@@ -24,7 +24,7 @@ class DjsSuper extends Exp
 		{
 			$args .= ', ';
 			foreach($this->args as $arg)
-				$args .= $arg->interpret();
+				$args .= $arg->interpret($parser);
 		}
 		
     	$mName = ($this->methodName == 'construct') ? 'constructor': $this->methodName;

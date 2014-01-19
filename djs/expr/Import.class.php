@@ -15,15 +15,19 @@ class Import extends Exp
         $this->content = $value;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
     	$content = "";
 		$this->content = str_replace('/', DIRECTORY_SEPARATOR, $this->content);
 		
-    	if(file_exists($this->content))
+		$path = $parser->getFilename();
+		$path = substr($path, 0, strrpos($path, DIRECTORY_SEPARATOR) + 1);
+		$path .= $this->content; 
+		
+    	if(file_exists($path))
 		{
 			$djs = new \djs\DJS(true);
-			$content = $djs->parseFile($this->content);
+			$content = $djs->parseFile($path);
 		}
 		
 		return $content;

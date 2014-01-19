@@ -10,7 +10,7 @@ class RightBrace extends Exp
     	parent::__construct(\djs\analysis\Lexer::TT_RIGHT_BRACE);
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
     	return '}';
     }

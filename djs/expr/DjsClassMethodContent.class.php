@@ -14,14 +14,14 @@ class DjsClassMethodContent extends Exp
         $this->className= $className;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
     	$str = '';
 		
 		if($this->content != null && count($this->content) > 0)
 		{
 			foreach($this->content as $c)
-				$str .= $c->interpret();
+				$str .= $c->interpret($parser);
 		}
 		
 		return $str;

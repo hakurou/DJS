@@ -20,7 +20,7 @@ class DjsWord extends Exp
         $this->content = $value;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
     	// Mots necessitants forcément un espace a la suite
     	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Reserved_Words

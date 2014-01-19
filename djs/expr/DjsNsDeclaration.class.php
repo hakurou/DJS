@@ -9,7 +9,7 @@ class DjsNsDeclaration extends Exp
     	parent::__construct(\djs\analysis\Lexer::TT_WORD_VAR);
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
 		return $this->parentNamespace.'.';
     }

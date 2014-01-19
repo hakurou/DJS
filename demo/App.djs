@@ -1,5 +1,5 @@
 
-import "demo/Model.djs";
+import "Model.djs";
 
 namespace demo
 {

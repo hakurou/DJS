@@ -5,7 +5,7 @@ DJS
 Introduction
 ------------
 
-DJS est un parseur qui permet d'ajouter quelques petites simplifications d'écriture au JavaScript.
+DJS est un parseur qui permet d'ajouter quelques petites simplifications d'écriture a JavaScript.
 La version de base est en PHP, mais il est prévu d'en écrire une en C++ et pourquoi pas en JS, à chacun sa façon de faire.
 
 Utilisation
@@ -154,4 +154,15 @@ import "project1/MaClasse.djs";
 
 var o = new project1.MaClasse();
 
+`````
+
+La fonctionnalité "import" utilise le chemin du fichier à parser comme chemin de base pour importer les autres, de ce 
+fait, tous les "import" se font a partir du fichier principal.
+
+exemple:
+`````javascript
+// Fichier /js/test.djs
+
+// Import du fichier /js/project1/MaClasse.djs
+import "project1/MaClasse.djs";
 `````

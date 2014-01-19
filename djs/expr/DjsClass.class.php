@@ -24,13 +24,13 @@ class DjsClass extends Exp
         $this->extends = $extends;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
-    	$attrs = $this->getAttr(self::T_PUBLIC);
-    	$staticAttrs = $this->getAttr(self::T_STATIC);
-		$methods = $this->getMethods(self::T_PUBLIC);
-		$staticMethods = $this->getMethods(self::T_STATIC);
-		$construct = $this->getCtorContent();
+    	$attrs = $this->getAttr(self::T_PUBLIC, $parser);
+    	$staticAttrs = $this->getAttr(self::T_STATIC, $parser);
+		$methods = $this->getMethods(self::T_PUBLIC, $parser);
+		$staticMethods = $this->getMethods(self::T_STATIC, $parser);
+		$construct = $this->getCtorContent($parser);
         $ctorArgs = array();
         if(isset($this->methods['public']['construct']))
             $ctorArgs = $this->getArgsList($this->methods['public']['construct']);
@@ -111,17 +111,17 @@ class DjsClass extends Exp
 		';
 	}
 	
-	protected function getCtorContent()
+	protected function getCtorContent($parser)
 	{
 		if(isset($this->methods['public']['construct']))
 		{
-			return $this->getContentList($this->methods['public']['construct']);
+			return $this->getContentList($this->methods['public']['construct'], $parser);
 		}
 		else
 			return '';
 	}
 	
-	protected function getMethods($type)
+	protected function getMethods($type, $parser)
 	{
 		$t = ($type == self::T_PUBLIC) ? 'public': 'static';
 		$methods = '';
@@ -133,7 +133,7 @@ class DjsClass extends Exp
 					continue;
 				
 				$args = $this->getArgsList($methValues);
-				$methodContent = $this->getContentList($methValues);
+				$methodContent = $this->getContentList($methValues, $parser);
 				$attach = ($type == self::T_PUBLIC) ? '.prototype': '';
 				$methods .= $this->className.$attach.'.'.$methName.' = function('.implode(', ', $args).'){
 					'.$methodContent.'
@@ -144,7 +144,7 @@ class DjsClass extends Exp
 		return $methods;
 	}
 
-	protected function getAttr($type)
+	protected function getAttr($type, $parser)
 	{
 		$t = ($type == self::T_PUBLIC) ? 'public': 'static';
 		$attrs = '';
@@ -158,7 +158,7 @@ class DjsClass extends Exp
 					$attrs .= $this->className.'.'.$attrName.' = ';
 						
 				foreach($attrValues as $attrValue)
-					$attrs .=  $attrValue->interpret();
+					$attrs .=  $attrValue->interpret($parser);
 				
 				$attrs .= ';';
 			}
@@ -167,13 +167,13 @@ class DjsClass extends Exp
 		return $attrs;
 	}
 
-	protected function getContentList($methValues)
+	protected function getContentList($methValues, $parser)
 	{
 		$methodContent = '';
 		if(count($methValues['content']) > 0)
 		{
 			foreach($methValues['content'] as $arg)
-				$methodContent .= $arg->interpret();
+				$methodContent .= $arg->interpret($parser);
 		}
 		
 		return $methodContent;

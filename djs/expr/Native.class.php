@@ -12,7 +12,7 @@ class Native extends Exp
         $this->content = $value;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
     	return $this->content->getValue();
     }

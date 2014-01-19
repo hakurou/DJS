@@ -22,7 +22,7 @@ abstract class Exp
 		$this->parentNamespace = $parentNamespace;
 	}
 	
-    abstract public function interpret();
+    abstract public function interpret($parser);
 	
 	abstract public function parse($parser);
 }

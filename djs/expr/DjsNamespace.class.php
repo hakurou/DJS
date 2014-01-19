@@ -14,7 +14,7 @@ class DjsNamespace extends Exp
 		$this->name = $name;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
     	$content = '';
 		$str = '';
@@ -24,7 +24,7 @@ class DjsNamespace extends Exp
 			foreach($this->content as $c)
 			{
 				$c->setNamespace($parentNs.$this->name);									
-				$str .= $c->interpret();
+				$str .= $c->interpret($parser);
 			}
 		}
 		

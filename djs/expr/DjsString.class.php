@@ -12,7 +12,7 @@ class DjsString extends Exp
         $this->content = $value;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
     	$c = $this->content->getValue();
     	$c = '"'.$c.'"';

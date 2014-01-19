@@ -12,14 +12,14 @@ class DjsBlock extends Exp
         $this->content = $exprs;
     }
     
-    public function interpret()
+    public function interpret($parser)
     {
     	$str = '';
 		$str .= '{'; // Réintégration de la premiere accolade
 		if($this->content != null && count($this->content) > 0)
 		{
 			foreach($this->content as $c)
-				$str .= $c->interpret();	
+				$str .= $c->interpret($parser);	
 		}
 		$str .= '}'; // Réintégration de la derniere accolade
 		return $str;

@@ -95,8 +95,8 @@ class DjsClass extends Exp
 			var __extends = function(child, parent) {
 				for(var i in parent) 
 				{
-					if (!child.hasOwnProperty(key))
-						child[key] = parent[key]; 
+					if (!child.hasOwnProperty(i))
+						child[i] = parent[i]; 
 				} 
 				
 				function ctor() 

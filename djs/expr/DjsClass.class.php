@@ -3,10 +3,16 @@
 namespace djs\expr;
 
 /**
- * Exploser cette classe pour proposer un type "methode" et "attribut" pour faire plus propre
+ * Expression représentant une classe
+ * @author hakurou
+ * @version 1.0.0
+ * @todo Exploser cette classe pour proposer un type "methode" et "attribut" pour faire plus propre
  */
 class DjsClass extends Exp
 {
+	/**
+	 * Constantes d'encapsulation
+	 */
 	const T_PUBLIC = 999;
 	const T_STATIC = 998;
 	
@@ -15,6 +21,13 @@ class DjsClass extends Exp
     protected $attrs;
 	protected $extends;
     
+	/**
+	 * Constructeur
+	 * @param String $className 					Nom de la classe
+	 * @param Array $methods						Liste des méthodes par encapsulation
+	 * @param Array $attrs							Liste des attributes de classe
+	 * @param String $extends						Nom de la classe parente si elle existe
+	 */
     public function __construct($className = null, $methods = null, $attrs = null, $extends = null)
     {
     	parent::__construct(\djs\analysis\Lexer::TT_CLASS);
@@ -24,6 +37,9 @@ class DjsClass extends Exp
         $this->extends = $extends;
     }
     
+	/**
+	 * @see Exp::interpret
+	 */
     public function interpret($parser)
     {
     	$attrs = $this->getAttr(self::T_PUBLIC, $parser);
@@ -71,6 +87,10 @@ class DjsClass extends Exp
 		return $content;
     }
 	
+	/**
+	 * Retourne un fragment de JS pour l'héritage
+	 * @return String						Code de l'héritage
+	 */
 	protected function getSuperSrc()
 	{
 		if($this->extends  != '')
@@ -83,11 +103,18 @@ class DjsClass extends Exp
 		return '';
 	}
 	
+	/**
+	 * Dit au launcher d'inclure le code de création de classe en JS
+	 */
 	protected function prepareInheritSrc()
 	{
 		\djs\DJS::$includeInheritCode = true;
 	}
 
+	/**
+	 * Retourne le code de création de classe
+	 * @return String						Code de création de classe
+	 */
 	public static function getInheritSrc()
 	{
 		return '
@@ -111,6 +138,10 @@ class DjsClass extends Exp
 		';
 	}
 	
+	/**
+	 * @param $parser
+	 * @return String
+	 */
 	protected function getCtorContent($parser)
 	{
 		if(isset($this->methods['public']['construct']))
@@ -121,6 +152,11 @@ class DjsClass extends Exp
 			return '';
 	}
 	
+	/**
+	 * @param $type
+	 * @param $parser
+	 * @return String
+	 */
 	protected function getMethods($type, $parser)
 	{
 		$t = ($type == self::T_PUBLIC) ? 'public': 'static';
@@ -144,6 +180,11 @@ class DjsClass extends Exp
 		return $methods;
 	}
 
+	/**
+	 * @param $type
+	 * @param $parser
+	 * @return String
+	 */
 	protected function getAttr($type, $parser)
 	{
 		$t = ($type == self::T_PUBLIC) ? 'public': 'static';
@@ -167,6 +208,11 @@ class DjsClass extends Exp
 		return $attrs;
 	}
 
+	/**
+	 * @param $methValues
+	 * @param $parser
+	 * @return String
+	 */
 	protected function getContentList($methValues, $parser)
 	{
 		$methodContent = '';
@@ -179,6 +225,11 @@ class DjsClass extends Exp
 		return $methodContent;
 	}
 	
+	/**
+	 * Récupère les arguments de la méthode souhaitée
+	 * @param $methValues
+	 * return Array
+	 */
 	protected function getArgsList($methValues)
 	{
 		$args = array();
@@ -191,6 +242,9 @@ class DjsClass extends Exp
 		return $args;
 	}
 	
+	/**
+	 * @see Exp::parse
+	 */
 	public function parse($parser)
 	{
 		$attrs = array();
@@ -243,6 +297,13 @@ class DjsClass extends Exp
 		return new self($className, $methods, $attrs, $extends);
 	}
 	
+	/**
+	 * Parse le contenu de la classe dans son ensemble
+	 * @param Parser $parser					Instance du parser
+	 * @param &Array $attrs						Référence vers la liste des attributs
+	 * @param $Array $methods					Référence vers la liste des méthodes
+	 * @param String $className					Nom de la classe
+	 */
 	protected function parseClassContent($parser, &$attrs, &$methods, $className)
 	{
 		$static = false;
@@ -263,6 +324,15 @@ class DjsClass extends Exp
 			trigger_error('DjsClass::parseClassContent: Unexpected token "'.$parser->getCurrentToken()->getValue().'", attribute or method waited', E_USER_ERROR);
 	}
 	
+	/**
+	 * Parse une méthode de classe
+	 * @param String $name						Nom de la méthode
+	 * @param Parser $parser					Instance du parser
+	 * @param &Array $attrs						Référence vers la liste des attributs
+	 * @param $Array $methods					Référence vers la liste des méthodes
+	 * @param Boolean $static					Dit si la méthode est statique ou non
+	 * @param String $className					Nom de la classe
+	 */
 	protected function parseClassMethod($name, $parser, &$attrs, &$methods, $static, $className)
 	{
 		$parser->nextToken();
@@ -296,6 +366,14 @@ class DjsClass extends Exp
 		$methods[($static) ? 'static': 'public'][$name->getValue()]['content'][] = $e;
 	}
 
+	/**
+	 * Parse un attribut de classe
+	 * @param String $name						Nom de l'attribut
+	 * @param Parser $parser					Instance du parser
+	 * @param &Array $attrs						Référence vers la liste des attributs
+	 * @param $Array $methods					Référence vers la liste des méthodes
+	 * @param Boolean $static					Dit si l'attribut est statique ou non
+	 */
 	protected function parseClassAttr($name, $parser, &$attrs, &$methods, $static)
 	{
 		$parser->nextToken();

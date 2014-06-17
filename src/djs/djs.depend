@@ -1,0 +1,49 @@
+# depslib dependency file v1.0
+1390590034 source:c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\automata\automaton.cpp
+	"Automaton.h"
+
+1390063509 source:c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\automata\djsautomaton.cpp
+
+1390063983 source:c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\lexer.cpp
+	"Lexer.h"
+
+1390418924 c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\lexer.h
+	"tokens/tokenType.h"
+
+1390592626 source:c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\parser.cpp
+	"Parser.h"
+
+1390592251 c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\parser.h
+	<iostream>
+	<string>
+
+1390063638 source:c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\tokens\token.cpp
+
+1390591302 source:c:\xampp\htdocs\git\djs\src\djs\library\djs\djs.cpp
+	"DJS.h"
+
+1390591432 c:\xampp\htdocs\git\djs\src\djs\library\djs\djs.h
+	<iostream>
+	<string>
+	"analysis/Parser.h"
+
+1390414318 source:c:\xampp\htdocs\git\djs\src\djs\main.cpp
+	<iostream>
+	"library/djs/DJS.h"
+	"library/djs/analysis/automata/State.h"
+
+1390587061 c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\automata\state.h
+	<iostream>
+	<map>
+	"../tokens/tokenType.h"
+
+1390587029 source:c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\automata\state.cpp
+	"State.h"
+
+1390590042 c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\automata\automaton.h
+	<iostream>
+	<string>
+	"State.h"
+
+1390588795 c:\xampp\htdocs\git\djs\src\djs\library\djs\analysis\tokens\tokentype.h
+

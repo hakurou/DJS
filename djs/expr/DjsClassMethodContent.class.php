@@ -2,11 +2,21 @@
 
 namespace djs\expr;
 
+/**
+ * Expression représentant un contenu de méthode de classe
+ * @author hakurou
+ * @version 1.0.0
+ */
 class DjsClassMethodContent extends Exp
 {
     protected $content;
     protected $className;
     
+	/**
+	 * Constructeur
+	 * @param String $className					Nom de la classe
+	 * @param Array<Token>						Liste de token représentant le contenu
+	 */
     public function __construct($className = null, $value = null)
     {
     	parent::__construct(\djs\analysis\Lexer::TT_METHOD_CONTENT);
@@ -14,6 +24,9 @@ class DjsClassMethodContent extends Exp
         $this->className= $className;
     }
     
+	/**
+	 * @see Exp::interpret
+	 */
     public function interpret($parser)
     {
     	$str = '';
@@ -27,6 +40,9 @@ class DjsClassMethodContent extends Exp
 		return $str;
     }
 	
+	/**
+	 * @see Exp::parse
+	 */
 	public function parse($parser)
 	{
 		$exprs = array();

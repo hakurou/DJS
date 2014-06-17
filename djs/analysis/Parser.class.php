@@ -2,23 +2,58 @@
 
 namespace djs\analysis;
 
+/**
+ * Analyseur syntaxique
+ * @author hakurou
+ * @version 1.0.0
+ */
 class Parser
 {
+	/**
+	 * Instance de l'analyseur lexical
+	 * @var Lexer
+	 */
     protected $lexer;
+	
+	/**
+	 * Instance du launcher
+	 * @var DJS
+	 */
 	protected $djs;
+	/**
+	 * Token courant
+	 * @var Token
+	 */
     protected $currentToken;
+	
+	/**
+	 * Chemin du fichier a parser
+	 * @var String
+	 */
     protected $filename;
 	
+	/**
+	 * Constructeur
+	 * @param DJS $djs						Instance du launcher
+	 */
     public function __construct($djs)
     {
     	$this->djs = $djs;
     }
 	
+	/**
+	 * Récupère le nom du fichier a parser
+	 * @return String						Nom du fichier
+	 */
 	public function getFilename()
 	{
 		return $this->filename;
 	}
     
+	/**
+	 * Parse un fichier de source
+	 * @param String $filename					Fichier a traiter
+	 */
     public function parseFile($filename)
     {
     	$this->filename = $filename;
@@ -34,16 +69,27 @@ class Parser
 		return $content ;
     }
 	
+	/**
+	 * Récupère le token courant
+	 * @return Token							Token courant
+	 */
 	public function getCurrentToken()
 	{
 		return $this->currentToken;
 	}
 	
+	/**
+	 * récupère le token suivant
+	 */
 	public function nextToken()
     {
         $this->currentToken = $this->lexer->getNextToken();
     }
 
+	/**
+	 * Parse une expression
+	 * @return Exp/null							Retourne une expression si trouvée, sinon null
+	 */
 	public function parseExpr()
 	{
 		// Parse seulement les éléments relatifs à DJS, le reste est du natif donc on y touche pas
@@ -71,38 +117,6 @@ class Parser
 			return new \djs\expr\RightBrace();
 		else
 			return new \djs\expr\Native($this->currentToken);
-	}
-	
-	public function parseWordsSuit()
-	{
-		$s = '';
-		
-		$this->nextToken();
-		$t = $this->currentToken;
-		
-		while($t != null)
-		{
-			if($t->getType() != Lexer::TT_WORD)
-				trigger_error('Parse::parseSuitString: Unexpected token');
-			
-			$s .= $t->getValue();
-			$this->nextToken();
-			$t = $this->getCurrentToken();
-			if($t->getValue() == '.')
-			{
-				$s .= $t->getValue();
-			
-				$this->nextToken();
-				$t = $this->getCurrentToken();
-			
-				if($t->getType() != \djs\analysis\Lexer::TT_WORD)
-					trigger_error('DjsClass::parse: Unexpected token', E_USER_ERROR);
-			}
-			else
-				break;
-		}
-		
-		return $s;	
 	}
 }
 

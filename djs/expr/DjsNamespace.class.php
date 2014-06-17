@@ -42,7 +42,7 @@ class DjsNamespace extends Exp
 	
 	public function parse($parser)
 	{
-		$name = $parser->parseWordsSuit();
+		$name = $this->parseWordsSuit($parser);
 		
 		if($parser->getCurrentToken()->getType() != \djs\analysis\Lexer::TT_LEFT_BRACE)
 			trigger_error('DjsNamespace::parse: Unexpected token', E_USER_ERROR);
@@ -60,6 +60,38 @@ class DjsNamespace extends Exp
 				break;
 		}
 		return new self($name, $exprList);
+	}
+	
+	protected function parseWordsSuit($parser)
+	{
+		$s = '';
+		
+		$parser->nextToken();
+		$t = $parser->getCurrentToken();
+		
+		while($t != null)
+		{
+			if($t->getType() != Lexer::TT_WORD)
+				trigger_error('DjsNamespace::parseWordsSuit: Unexpected token');
+			
+			$s .= $t->getValue();
+			$parser->nextToken();
+			$t = $parser->getCurrentToken();
+			if($t->getValue() == '.')
+			{
+				$s .= $t->getValue();
+			
+				$parser->nextToken();
+				$t = $parser->getCurrentToken();
+			
+				if($t->getType() != \djs\analysis\Lexer::TT_WORD)
+					trigger_error('DjsNamespace::parseWordsSuit: Unexpected token', E_USER_ERROR);
+			}
+			else
+				break;
+		}
+		
+		return $s;	
 	}
 	
 	protected function generateNs()

@@ -2,8 +2,16 @@
 
 namespace djs\analysis\automata;
 
+/**
+ * Automate propre au langage DJS
+ * @author hakurou
+ * @version 1.0.0
+ */
 class DjsAutomaton extends Automaton
 {
+	/**
+	 * Constructeur
+	 */
     public function __construct()
     {
         parent::__construct();
@@ -11,6 +19,9 @@ class DjsAutomaton extends Automaton
         $this->initAutomaton();
     }
     
+	/**
+	 * Initialise l'automate en remplissant les étapes pour la capture lexicale
+	 */
     protected function initAutomaton()
     {
         $this->prepareString();
@@ -22,6 +33,9 @@ class DjsAutomaton extends Automaton
         $this->prepareNative();
     }
 	
+	/**
+	 * Ajoute les étapes pour traiter les accolades
+	 */
 	protected function prepareBraces()
 	{
 		$s1 = new State();
@@ -37,6 +51,10 @@ class DjsAutomaton extends Automaton
 		$s2->setTokenType(\djs\analysis\Lexer::TT_RIGHT_BRACE);
 	}
 	
+	/**
+	 * Ajoute les étapes pour traiter les caractères ne correspondants pas
+	 * à DJS, on traite ces elements comme provenant du code natif javascript
+	 */
 	protected function prepareNative()
 	{
 		$s1 = new State();		
@@ -45,6 +63,9 @@ class DjsAutomaton extends Automaton
 		$s1->setTokenType(\djs\analysis\Lexer::TT_NATIVE);
 	}
 	
+	/**
+	 * Ajoute les étapes pour traiter les points virgules
+	 */
 	protected function prepareSemiColon()
 	{
 		$s1 = new State();
@@ -55,6 +76,9 @@ class DjsAutomaton extends Automaton
 		$s1->setTokenType(\djs\analysis\Lexer::TT_SEMICOLON);
 	}
     
+	/**
+	 * Ajoute les étapes pour traiter les commentaires
+	 */
     protected function prepareComment()
     {
         $s1 = new State();
@@ -85,6 +109,9 @@ class DjsAutomaton extends Automaton
 		$s5->setFinal();
     }
 
+	/**
+	 * Ajoute les étapes pour traiter les chaines de caracteres
+	 */
     protected function prepareString()
     {
         $s3 = new State();
@@ -110,6 +137,9 @@ class DjsAutomaton extends Automaton
         $s4->setTokenType(\djs\analysis\Lexer::TT_STRING);
     }
     
+	/**
+	 * Ajoute les étapes pour traiter les mots (variables, fonctions, etc...)
+	 */
     protected function prepareWord()
     {
         $s1 = new State();
@@ -144,6 +174,9 @@ class DjsAutomaton extends Automaton
         $s2->setTokenType(\djs\analysis\Lexer::TT_WORD);
     }
     
+	/**
+	 * Ajoute les étapes pour traiter les espaces blancs
+	 */
     protected function prepareBlank()
     {
         $s9 = new State();

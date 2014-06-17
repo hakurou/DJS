@@ -2,16 +2,29 @@
 
 namespace djs\expr;
 
+/**
+ * Expression représentant un contenu entouré d'accolade, permet d'éviter le mélange 
+ * entre accolades DJS et accolades javascript
+ * @author hakurou
+ * @version 1.0.0
+ */
 class DjsBlock extends Exp
 {
     protected $content;
     
+	/**
+	 * Constructeur
+	 * @param Array<Token> $exprs					Liste de tokens
+	 */
     public function __construct($exprs = null)
     {
     	parent::__construct(\djs\analysis\Lexer::TT_SCOPE);
         $this->content = $exprs;
     }
     
+	/**
+	 * @see Exp::interpret
+	 */
     public function interpret($parser)
     {
     	$str = '';
@@ -25,6 +38,9 @@ class DjsBlock extends Exp
 		return $str;
     }
 	
+	/**
+	 * @see Exp::parse
+	 */
 	public function parse($parser)
 	{
 		$exprs = array();

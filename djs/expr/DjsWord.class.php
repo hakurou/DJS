@@ -2,10 +2,19 @@
 
 namespace djs\expr;
 
+/**
+ * Expression représentant un mot
+ * @author hakurou
+ * @version 1.0.0
+ */
 class DjsWord extends Exp
 {
     protected $content;
     
+	/**
+	 * Constructeur
+	 * @param Token $value					Token représentant un mot
+	 */
     public function __construct($value = null)
     {
     	if($value->getValue() == 'super')
@@ -20,6 +29,9 @@ class DjsWord extends Exp
         $this->content = $value;
     }
     
+	/**
+	 * @see Exp::interpret
+	 */
     public function interpret($parser)
     {
     	// Mots necessitants forcément un espace a la suite
@@ -44,6 +56,9 @@ class DjsWord extends Exp
 		}
     }
 	
+	/**
+	 * @see Exp::parse
+	 */
 	public function parse($parser)
 	{
 		return null;

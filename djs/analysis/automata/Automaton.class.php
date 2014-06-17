@@ -2,8 +2,16 @@
 
 namespace djs\analysis\automata;
 
+/**
+ * Automate DFA pour la partie lexicale
+ * @author hakurou
+ * @version 1.0.0
+ */
 class Automaton
 {
+	/**
+	 * Constantes de type de retour de test de transition
+	 */
     const R_ERROR = 1;
     const R_SUCCESS = 2;
     const R_SUCCESS_BACK = 4;
@@ -15,17 +23,30 @@ class Automaton
     protected $buffer;
     protected $tokenType;
     
+	/**
+	 * Constructeur
+	 */
     public function __construct()
     {
         $this->buffer = "";
         $this->startState = new State();
     }
     
+	/**
+	 * Définit l'étape de démarrage
+	 * @param Stage $state					Etape de demarrage
+	 */
     public function setStartState($state)
     {
         $this->startState = $state;
     }
     
+	/**
+	 * Teste chaque caractere afin de voir si il correspond
+	 * à l'une des étapes de l'automate
+	 * @param Char $letter					Lettre a tester
+	 * @return Int Const					Retourne une valeur correspondant a un type de resultat
+	 */
     public function test($letter)
     {
         if($this->currentState == null)
@@ -71,6 +92,10 @@ class Automaton
         }
     }
     
+	/**
+	 * Retourne des informations sur le token trouvé
+	 * @return Array							Infos trouvées
+	 */
     public function getToken()
     {
         $t = array(
@@ -83,6 +108,9 @@ class Automaton
         return $t;
     }
     
+	/**
+	 * Vide le tampon
+	 */
     public function clearBuffer()
     {
         $this->buffer = "";

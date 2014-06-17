@@ -2,11 +2,18 @@
 
 namespace djs\analysis;
 
+/**
+ * Analyseur lexical
+ * @author hakurou
+ * @version 1.0.0
+ */
 class Lexer
 {
+	// Constantes du type de source a traiter
     const T_FILE = 1;
     const T_STRING = 2;
     
+	// Constantes de type token
     const TT_IMPORT = 999;
     const TT_STRING = 998;
     const TT_WORD = 997;
@@ -28,6 +35,11 @@ class Lexer
     protected $automaton;
     protected $cursor;
     
+	/**
+	 * Constructeur
+	 * @param String $str					Soit la source, soit le chemin de la source
+	 * @param Int Const $contentType		Type de source a parser
+	 */
     public function __construct($str, $contentType)
     {
         $this->cursor = 0;
@@ -40,9 +52,12 @@ class Lexer
         $this->automaton = new automata\DjsAutomaton();
     }
     
+	/**
+	 * Récupère le prochain token
+	 * @return Token						Retourne un token quand il est trouvé, sinon null
+	 */
     public function getNextToken()
     {
-    	$line = 1;
         $tokens = null;
         while(isset($this->source[$this->cursor]))
         {
@@ -53,7 +68,6 @@ class Lexer
                 $result == automata\DjsAutomaton::R_SUCCESS_IGNORE)
             {
                 $t = $this->automaton->getToken();
-				
                 if($t['tokenType'] != null)
                 {
                     $token = new tokens\Token();

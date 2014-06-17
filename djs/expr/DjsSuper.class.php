@@ -2,12 +2,23 @@
 
 namespace djs\expr;
 
+/**
+ * Expression représentant un appel à une méthode propre à la classe parente
+ * @author hakurou
+ * @version 1.0.0
+ */
 class DjsSuper extends Exp
 {
     protected $args;
 	protected $methodName;
 	protected $className;
     
+	/**
+	 * Constructeur
+	 * @param String $className					Nom de la classe
+	 * @param String $methodName				Nom de la méthode à appeler
+	 * @param Array $args						Arguments a envoyer à la méthode
+	 */
     public function __construct($className = null, $methodName = null, $args = null)
     {
     	parent::__construct(\djs\analysis\Lexer::TT_SUPER);
@@ -16,6 +27,9 @@ class DjsSuper extends Exp
         $this->className = $className;
     }
     
+	/**
+	 * @see Exp::interpret
+	 */
     public function interpret($parser)
     {
     	$args = '';
@@ -33,6 +47,9 @@ class DjsSuper extends Exp
     	';
     }
 	
+	/**
+	 * @see Exp::parse
+	 */
 	public function parse($parser)
 	{
 		$args = array();

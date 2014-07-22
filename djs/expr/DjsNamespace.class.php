@@ -71,7 +71,7 @@ class DjsNamespace extends Exp
 		
 		while($t != null)
 		{
-			if($t->getType() != Lexer::TT_WORD)
+			if($t->getType() != \djs\analysis\Lexer::TT_WORD)
 				trigger_error('DjsNamespace::parseWordsSuit: Unexpected token');
 			
 			$s .= $t->getValue();
